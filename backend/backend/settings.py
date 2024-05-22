@@ -21,7 +21,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = ["*"]
 
-AUTH_USER_MODEL = 'api.User'
+
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
@@ -29,9 +29,11 @@ REST_FRAMEWORK = {
         # Add other authentication classes if needed
     ],
     "DEFAULT_PERMISSION_CLASSES": [
-        "rest_framework.permissions.AllowAny",
+        "rest_framework.permissions.IsAuthenticated",
     ]
 }
+
+
 
 SIMPLE_JWT = {
     "ACCESS_TOKENLIFETIME": timedelta(minutes=30),
@@ -153,6 +155,7 @@ AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  # Default Django authentication backend
     'rest_framework_simplejwt.authentication.JWTAuthentication',  # JWT authentication backend
 ]
+AUTH_USER_MODEL = 'api.User'
 
 
 CORS_ALLOWED_ORIGINS = [

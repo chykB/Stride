@@ -9,6 +9,13 @@ class User(AbstractUser):
     USERNAME_FIELD = "email"
     REQUIRED_FIELDS = []
 
+    ROLE_CHOICES = [
+        ("coach", "Coach"),
+        ("athlete", "Athlete"),
+    ]
+
+    role = models.CharField(max_length=50, choices=ROLE_CHOICES, default="athlete")
+ 
     objects = UserManager()
 
     def __str__(self):

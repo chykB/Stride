@@ -3,9 +3,11 @@ from .models import User, Coach, Athlete, TrainingSession, Review
 
 class UserSerializer(serializers.ModelSerializer):
     password2 = serializers.CharField(write_only=True)
+    role = serializers.ChoiceField(choices=User.ROLE_CHOICES)
+    
     class Meta:
         model = User
-        fields = ["id", "username", "email", "password", "password2"]
+        fields = ["id", "username", "email", "password", "password2", "role"]
         extra_kwargs = {"password":{"write_only": True}}
 
     def validate(self, data):
