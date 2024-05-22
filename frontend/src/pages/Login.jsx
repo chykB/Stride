@@ -18,7 +18,20 @@ function Login() {
                 const {access, refresh} = response.data
                 localStorage.setItem("access", access)
                 localStorage.setItem("refresh", refresh)
-                navigate("/")
+                // Fetch user information
+                const userInfoResponse = await api.post("user", {
+                    headers: {
+                        Authorization: `Bearer ${access}`
+                    }
+                })
+                const userInfo = userInfoResponse.data.role;
+                
+                if (userInfo === "coach"){
+                    navigate("/coach-profile")
+                }
+                else {
+                    navigate("/athlete-profile")
+                }
             }else {
                 setError("Failed to log in. Please try again.");
             }

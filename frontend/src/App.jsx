@@ -4,6 +4,8 @@ import Login from "./pages/Login"
 import Register from "./pages/Register"
 import NotFound from "./pages/NotFound"
 import Home from "./pages/Home"
+import CoachProfile from "./pages/CoachProfile";
+import AthleteProfile from "./pages/AthleteProfile";
 import ProtectedRoute from "./components/ProtectedRoute"
 
 function Logout() {
@@ -27,6 +29,22 @@ function App() {
         />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<RegisterAndLogout />} />
+        <Route 
+          path="/coach-profile"
+          element={
+            <ProtectedRoute>
+              <CoachProfile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/athlete-profile"
+          element={
+            <ProtectedRoute>
+              <AthleteProfile />
+            </ProtectedRoute>
+          }
+        />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </BrowserRouter>

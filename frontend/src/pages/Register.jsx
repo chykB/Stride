@@ -8,8 +8,10 @@ function Register() {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [password2, setPassword2] = useState("")
+    const [role, setRole] = useState("athlete")
     const [error, setError] = useState("")
     const navigate = useNavigate()
+
 
     const handleRegister = async (e) => {
         e.preventDefault();
@@ -20,12 +22,12 @@ function Register() {
         }
 
         try {
-            const response = await api.post("register", {username, email, password, password2});
+            const response = await api.post("register", {username, email, password, password2, role});
             if (response.status === 201) {
                 navigate("/login")
 
             }else {
-                setError('Failed to register. Please try again.'); // Set error message
+                setError('Failed to register. Please try again.');
               }
         }catch (error) {
             console.log("Registration error", error)
@@ -45,6 +47,7 @@ function Register() {
                 placeholder="Username"
                 required
                 /><br/>
+
                 <input 
                 type="email" 
                 value={email}
@@ -52,6 +55,7 @@ function Register() {
                 placeholder="Email"
                 required
                 /><br/>
+
                 <input 
                 type="password" 
                 value={password}
@@ -59,6 +63,7 @@ function Register() {
                 placeholder="Password"
                 required
                 /><br/>
+
                 <input 
                 type="password" 
                 value={password2}
@@ -67,6 +72,11 @@ function Register() {
                 required
                 /><br/>
                 
+                <select value={role} onChange={(e) => setRole(e.target.value)} required>
+                    <option value="coach">Coach</option>
+                    <option value="athlete">Athlete</option>
+                </select><br/>
+
                 {error && <p>{error}</p>}
                 <button type="submit">Register</button>
             </form>

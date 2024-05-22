@@ -1,6 +1,7 @@
 import axios from "axios"
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "./constants"
 
+
 const api = axios.create({
     baseURL: import.meta.env.VITE_API_URL
 })
@@ -34,6 +35,7 @@ api.interceptors.response.use(
             if (response.status === 200) {
                 localStorage.setItem(ACCESS_TOKEN, response.data.access)
                 api.defaults.headers.common["Authorization"] = `Bearer ${response.data.access}`
+                originalRequest.headers["Authorization"] = `Bearer ${response.data.access}`
                 return api(originalRequest)
             }
         }
