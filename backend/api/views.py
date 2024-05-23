@@ -6,7 +6,7 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from .models import User, Coach, Athlete
-from .serializers import UserSerializer, LoginSerializer
+from .serializers import UserSerializer, LoginSerializer, CoachSerializer, AthleteSerializer
 
 
 # Create your views here.
@@ -58,4 +58,16 @@ class UserInfoView(APIView):
         user_data = UserSerializer(user).data
         print(user_data)
         return Response(user_data)
+    
+
+class CoachCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        serializer = CoachSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            print("Successful")
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     

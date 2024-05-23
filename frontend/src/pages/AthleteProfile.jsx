@@ -7,4 +7,4 @@ function AthleteProfile(){
         </div>
     )
 }
-export default AthleteProfile
+export default AthleteProfilegit
