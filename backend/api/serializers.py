@@ -32,12 +32,14 @@ class LoginSerializer(serializers.ModelSerializer):
 class CoachSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coach
-        fields = "__all__"
+        fields = ["full_name", "trainer_for", "bio", "image"]
+        read_only_fields = ["user"]
 
 class AthleteSerializer(serializers.ModelSerializer):
     class Meta:
         model = Athlete
-        fields = "__all__"
+        fields = ["full_name", "training_for", "image"]
+        read_only_fields = ["user"]
 
 class TrainingSessionSerializer(serializers.ModelSerializer):
     class Meta:

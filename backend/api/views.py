@@ -16,14 +16,7 @@ class RegisterUser(APIView):
     def post(self, request):
         serializer = UserSerializer(data=request.data)
         if serializer.is_valid():
-            user = serializer.save()
-            role = request.data.get("role")
-            print(role)
-            if role == "coach":
-                Coach.objects.create(user=user)
-            elif role == " athlete":
-                Athlete.objects.create(user=user)
-            print("successful")
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
         
@@ -64,10 +57,31 @@ class CoachCreateView(APIView):
     permission_classes = [IsAuthenticated]
 
     def post(self, request):
+        user = request.user
+        if hasattr(user, "coach"):
+            return Response({"error": "Coach profile already exist"}, status=status.HTTP_400_BAD_REQUEST)
+        data = request.data.copy()
+        data["user"] = user.id
         serializer = CoachSerializer(data=request.data)
         if serializer.is_valid():
-            serializer.save()
+            serializer.save(user=user)
             print("Successful")
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+class AthleteCreateView(APIView):
+    permission_classes = [IsAuthenticated]
+
+    def post(self, request):
+        user = request.user
+        if hasattr(user, "athlete"):
+            return Response({"error": "Athlete profile already exists"}, status=status.HTTP_400_BAD_REQUEST)
+        data = request.data.copy()
+        data["user"] = user.id
+        serializer = AthleteSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=user)
+            print("successful")
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
